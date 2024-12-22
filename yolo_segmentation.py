@@ -12,7 +12,8 @@ class YOLOSegmentation:
 
         segmentation_contours_idx = []
 
-        for seg in result.masks.segments:
+        # for seg in result.masks.segments:
+        for seg in result.masks.xy:
             seg[:, 0] *= width
             seg[:, 1] *= height
             

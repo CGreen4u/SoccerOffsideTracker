@@ -99,6 +99,18 @@ while True:
                 newX2 = int(2*(x2 - x)/3 + x)
                 newY2 = int(2*(y2 - y)/5 + y)
 
+                # Debug values for distLeft and distRight
+                print(f"distLeft: {distLeft}, distRight: {distRight}")
+
+                # Prevent zero division
+                if distLeft == 0:
+                    print("distLeft is zero, skipping calculation for this player")
+                    continue
+
+                if distRight == 0:
+                    print("distRight is zero, skipping calculation for this player")
+                    continue
+
                 # Shift color detection box based on player orientation
                 if(distRight > distLeft):
                     # Shift left
@@ -140,6 +152,16 @@ while True:
     cv2.circle(dst, (max_point_X, max_point_Y), 10, (0,255,255), 2)
     cv2.line(dst, (max_point_X, 0), (max_point_X, 1035), (0,255,255), 2)
 
+    # Detect offsides
+    for point in new_points:
+        if point[0] > max_point_X:
+            cv2.circle(dst, point, 10, (0, 0, 255), -1)  # Mark the offsides player in red
+
+    # Add white line indicating the furthest defender and color it red if offsides
+    cv2.line(dst, (max_point_X, 0), (max_point_X, dst.shape[0]), (255, 255, 255), 9)
+    if any(point[0] > max_point_X for point in new_points):
+        cv2.line(dst, (max_point_X, 0), (max_point_X, dst.shape[0]), (0, 0, 255), 2)
+
     # Show images
     cv2.imshow("Img", frame)
     cv2.imshow("Top View", dst)
@@ -152,3 +174,4 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
+
