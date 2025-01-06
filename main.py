@@ -5,7 +5,7 @@ from yolo_segmentation import YOLOSegmentation
 
 from functions import get_average_color, classify_bgr_color
 
-cap = cv2.VideoCapture("vid.mov")
+cap = cv2.VideoCapture("Liverpool.mp4")
 
 ys = YOLOSegmentation("yolov8m-seg.pt")
 
